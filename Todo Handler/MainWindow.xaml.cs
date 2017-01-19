@@ -1,29 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Todo_Handler
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MainWindow
 	{
 		private const int Offset = 10;
 		private const int GridHeight = 56;
+		private const int GridWidth = 249;
 
-		private int CurrentVerticalOffset { get; set; } = 0;
+		private int CurrentHorizontalOffset { get; set; } = 10;
+		private int CurrentVerticalOffset { get; set; } = 10;
 
 		public MainWindow() {
 			InitializeComponent();
@@ -35,22 +26,30 @@ namespace Todo_Handler
 			//children.Add(MainGrid.Children[MainGrid.Children.Count - 1]);
 
 			var grid = new Grid {
-				Margin = new Thickness(10, CurrentVerticalOffset, 0, 0),
+				Margin = new Thickness(CurrentHorizontalOffset, CurrentVerticalOffset, 0, 0),
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
-				Width = 249,
+				Width = GridWidth,
 				Height = GridHeight,
 				Background = Brushes.LightGray
 			};
-			grid.Children.Add(new Button {
+			//grid.Children.Add(new Button {
+			//	Margin = new Thickness(164, 10, 0, 0),
+			//	HorizontalAlignment = HorizontalAlignment.Left,
+			//	VerticalAlignment = VerticalAlignment.Top,
+			//	Width = 75,
+			//	Content = "Delete"
+			//});
+
+			var btn = new Button {
 				Margin = new Thickness(164, 10, 0, 0),
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
 				Width = 75,
 				Content = "Delete"
-			});
-
-			var btn = new Button();
+			};
+			btn.Click += ButtonDelete_Click;
+			grid.Children.Add(btn);
 			grid.Children.Add(new TextBox {
 				Margin = new Thickness(10, 10, 0, 0),
 				HorizontalAlignment = HorizontalAlignment.Left,
@@ -61,9 +60,26 @@ namespace Todo_Handler
 				Text = "Test text"
 			});
 			MainGrid.Children.Add(grid);
-			//var byk = higger.Margin;
-			//higger.Margin = new Thickness(byk.Left, byk.Top + higger.Height + 50, byk.Right, byk.Bottom);
-			CurrentVerticalOffset += GridHeight + Offset;
+
+			if (MainGrid.ActualWidth < CurrentHorizontalOffset + 2 * GridWidth + 2 * Offset) {
+				CurrentHorizontalOffset = Offset;
+				CurrentVerticalOffset += GridHeight + Offset;
+			} else
+				CurrentHorizontalOffset += GridWidth + Offset;
+		}
+
+		private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
+			MainGrid.Children.Clear();
+			CurrentHorizontalOffset = Offset;
+			CurrentVerticalOffset = Offset;
+		}
+
+		private void ButtonDelete_Click(object sender, RoutedEventArgs e) {
+			var btn = sender as Button;
+			if (btn == null)
+				return;
+			var parentGrid = btn.Parent as Grid;
+			MainGrid.Children.Remove(parentGrid);
 		}
 	}
 }
