@@ -53,7 +53,14 @@ namespace Todo_Handler
 			Items.Items.Add(new TodoItem { Title = window.TodoTitle, Note = window.Note, Id = id });
 		}
 
+		private bool CheckCannotAdd() {
+			return MainGrid.ActualHeight < CurrentVerticalOffset + GridHeight + 2 * Offset;
+		}
+
 		private void AddItem(string title, string note, Guid id) {
+			if (CheckCannotAdd())
+				return;
+
 			var grid = new Grid {
 				Margin = new Thickness(CurrentHorizontalOffset, CurrentVerticalOffset, 0, 0),
 				HorizontalAlignment = HorizontalAlignment.Left,
@@ -108,6 +115,8 @@ namespace Todo_Handler
 				CurrentVerticalOffset += GridHeight + Offset;
 			} else
 				CurrentHorizontalOffset += GridWidth + Offset;
+
+			ButtonAdd.IsEnabled = !CheckCannotAdd();
 		}
 
 		private void AddAll() {

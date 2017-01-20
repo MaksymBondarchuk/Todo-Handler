@@ -3,14 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Todo_Handler"
         mc:Ignorable="d"
-        Title="Manage your Todos" Height="419.703" Width="711.123" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen" Closing="Window_Closing" MinWidth="400" MinHeight="150">
+        Title="Manage your Todos" Height="419.703" Width="711.123" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen" Closing="Window_Closing" MinWidth="400" MinHeight="155">
 
     <Window.Resources>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Style x:Key="TodoGridStyle" TargetType="{x:Type Grid}">
             <Setter Property="Background" Value="LightGray"/>
         </Style>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Style x:Key="DeleteButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -43,6 +44,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!-- ReSharper disable once Xaml.RedundantResource -->
         <Style x:Key="EditButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -78,14 +80,7 @@
     </Window.Resources>
     
     <Grid>
-        <Grid x:Name="MainGrid" Margin="10,10,90,10" ScrollViewer.CanContentScroll="True">
-            <Grid HorizontalAlignment="Left" Height="60" Margin="41,150,0,0" VerticalAlignment="Top" Width="249" Background="#FFE2E2E2">
-                <Button x:Name="button" Style="{StaticResource DeleteButtonStyle}" Content="x" HorizontalAlignment="Left" Margin="224,6,0,0" VerticalAlignment="Top" VerticalContentAlignment="Bottom"/>
-                <Label x:Name="label" Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Width="159" HorizontalContentAlignment="Center"/>
-                <Label x:Name="label1" Content="Label" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" Width="159"/>
-                <Button x:Name="ButtonEdit" Style="{StaticResource EditButtonStyle}" Content="🖉" HorizontalAlignment="Left" Margin="224,35,0,0" VerticalAlignment="Top" RenderTransformOrigin="4.067,0.278"/>
-            </Grid>
-        </Grid>
+        <Grid x:Name="MainGrid" Margin="10,10,90,10" ScrollViewer.CanContentScroll="True"/>
         <Button x:Name="ButtonAdd" Content="Add" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="75" Click="ButtonAdd_Click"/>
 
     </Grid>
