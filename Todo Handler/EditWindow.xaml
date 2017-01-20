@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="Enter Todo information" Height="286" Width="323" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
     <Grid Margin="0,0,14,11">
-        <TextBox x:Name="TextBoxTitle" HorizontalAlignment="Left" Height="23" Margin="10,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274"/>
+        <TextBox x:Name="TextBoxTitle" HorizontalAlignment="Left" Height="23" Margin="10,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" TabIndex="0"/>
         <Label x:Name="LabelTitle" Content="Title" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
         <Label x:Name="LabelNote" Content="Note" HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="ButtonApply" Content="Apply" HorizontalAlignment="Left" Margin="105,213,0,0" VerticalAlignment="Top" Width="75" Click="ButtonApply_Click"/>
-        <TextBox x:Name="TextBoxNote" HorizontalAlignment="Left" Height="108" Margin="10,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274"/>
+        <Button x:Name="ButtonApply" Content="Apply" HorizontalAlignment="Left" Margin="105,213,0,0" VerticalAlignment="Top" Width="75" Click="ButtonApply_Click" TabIndex="2" IsDefault="True"/>
+        <TextBox x:Name="TextBoxNote" HorizontalAlignment="Left" Height="108" Margin="10,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" TabIndex="1"/>
 
     </Grid>
 </Window>

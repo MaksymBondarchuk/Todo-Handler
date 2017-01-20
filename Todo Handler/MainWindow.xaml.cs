@@ -32,13 +32,13 @@ namespace Todo_Handler
             //var children = MainGrid.Children;
             //children.Add(MainGrid.Children[MainGrid.Children.Count - 1]);
 
-            var window = new EditWindow();
+            var window = new EditWindow(null, null);
             window.ShowDialog();
 
             if (string.IsNullOrEmpty(window.TodoTitle)) return;
             var id = Guid.NewGuid();
             AddItem(window.TodoTitle, window.Note, id);
-            Items.Add(new TodoItem { Note = window.TodoTitle, Title = window.Note, Id = id });
+            Items.Add(new TodoItem { Title = window.TodoTitle, Note = window.Note, Id = id });
         }
 
         private void AddItem(string title, string note, Guid id)
@@ -54,7 +54,7 @@ namespace Todo_Handler
                 Tag = id
             };
 
-            var btn = new Button
+            var buttonDelete = new Button
             {
                 Margin = new Thickness(164, 10, 0, 0),
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -62,17 +62,52 @@ namespace Todo_Handler
                 Width = 75,
                 Content = "Delete"
             };
-            btn.Click += ButtonDelete_Click;
-            grid.Children.Add(btn);
-            grid.Children.Add(new TextBox
+            buttonDelete.Click += ButtonDelete_Click;
+            grid.Children.Add(buttonDelete);
+
+            var buttonEdit = new Button
             {
-                Margin = new Thickness(10, 10, 0, 0),
+                Margin = new Thickness(164, 35, 0, 0),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Height = 23,
-                Width = 120,
-                TextWrapping = TextWrapping.Wrap,
-                Text = title
+                Width = 75,
+                Content = "Edit"
+            };
+            buttonEdit.Click += ButtonEdit_Click;
+            grid.Children.Add(buttonEdit);
+            /*
+                <Button x:Name="button" Content="Delete" HorizontalAlignment="Left" Margin="164,10,0,0" VerticalAlignment="Top" Width="75"/>
+                <Label x:Name="label" Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Width="159" HorizontalContentAlignment="Center"/>
+                <Label x:Name="label1" Content="Label" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" Width="159"/>
+                <Button x:Name="ButtonEdit" Content="Edit" HorizontalAlignment="Left" Margin="164,35,0,0" VerticalAlignment="Top" Width="75"/>
+               */
+            //grid.Children.Add(new TextBox
+            //{
+            //    Margin = new Thickness(10, 10, 0, 0),
+            //    HorizontalAlignment = HorizontalAlignment.Left,
+            //    VerticalAlignment = VerticalAlignment.Top,
+            //    Height = 23,
+            //    Width = 120,
+            //    TextWrapping = TextWrapping.Wrap,
+            //    Text = title
+            //});
+            grid.Children.Add(new Label()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                FontSize = 14,
+                FontWeight = FontWeights.Bold,
+                Width = 159,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                Content = title
+            });
+            grid.Children.Add(new Label()
+            {
+                Margin = new Thickness(0, 31, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Width = 159,
+                Content = note
             });
             MainGrid.Children.Add(grid);
 
@@ -102,6 +137,33 @@ namespace Todo_Handler
             //MainGrid.Children.Remove(parentGrid);
             DeleteAll();
             AddAll();
+        }
+
+        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var parentGrid = btn?.Parent as Grid;
+            if (parentGrid == null) return;
+
+            var item = Items.Select(t => t).FirstOrDefault(t => t.Id == (Guid)parentGrid.Tag);
+            if (item == null) return;
+
+            var window = new EditWindow(item.Title, item.Note);
+            window.ShowDialog();
+
+            if (!string.IsNullOrEmpty(window.TodoTitle))
+            {
+                item.Title = window.TodoTitle;
+                var titleLabel = parentGrid.Children[2] as Label;
+                if (titleLabel != null)
+                    titleLabel.Content = window.TodoTitle;
+            }
+            if (!string.IsNullOrEmpty(window.Note))
+            {
+                item.Note = window.Note;
+                var noteLabel = parentGrid.Children[3] as Label;
+                if (noteLabel != null) noteLabel.Content = window.Note;
+            }
         }
 
         private void AddAll()
